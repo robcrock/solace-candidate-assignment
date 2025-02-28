@@ -173,6 +173,6 @@ const advocateData = [
     yearsOfExperience: 3,
     phoneNumber: 5559872345,
   },
-];
+].map((advocate) => ({ id: crypto.randomUUID(), ...advocate }));
 
 export { advocateData };
