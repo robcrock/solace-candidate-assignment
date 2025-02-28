@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -52,7 +53,9 @@ export default function Home() {
           Searching for: <span id="search-term"></span>
         </p>
         <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+        <Button variant="ghost" onClick={onClick}>
+          Reset Search
+        </Button>
       </div>
       <br />
       <br />
