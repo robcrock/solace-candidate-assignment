@@ -1,9 +1,13 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   PaginationState,
   useReactTable,
@@ -17,8 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { Filters } from "@/components/filters";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -33,6 +38,7 @@ export const DataTable = <TData, TValue>({
     pageIndex: 0,
     pageSize: 5,
   });
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -40,13 +46,17 @@ export const DataTable = <TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       pagination,
+      columnFilters,
     },
   });
 
   return (
     <div>
+      <Filters table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
