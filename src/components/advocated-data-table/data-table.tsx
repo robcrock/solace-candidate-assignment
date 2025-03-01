@@ -1,17 +1,19 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from "react"
 
 import {
   ColumnDef,
+  SortingState,
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   PaginationState,
   useReactTable,
-} from "@tanstack/react-table";
+} from "@tanstack/react-table"
 
 import {
   Table,
@@ -20,14 +22,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/table"
 
-import { Button } from "@/components/ui/button";
-import { Filters } from "@/components/filters";
+import { Button } from "@/components/ui/button"
+import { Filters } from "@/components/filters"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
 }
 
 export const DataTable = <TData, TValue>({
@@ -37,8 +39,9 @@ export const DataTable = <TData, TValue>({
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 5,
-  });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  })
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const table = useReactTable({
     data,
@@ -48,11 +51,14 @@ export const DataTable = <TData, TValue>({
     onPaginationChange: setPagination,
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     state: {
       pagination,
+      sorting,
       columnFilters,
     },
-  });
+  })
 
   return (
     <div className="flex flex-col h-full">
@@ -78,7 +84,7 @@ export const DataTable = <TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -155,5 +161,5 @@ export const DataTable = <TData, TValue>({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

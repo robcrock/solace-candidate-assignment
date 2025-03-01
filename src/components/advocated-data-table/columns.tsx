@@ -1,36 +1,49 @@
-"use client";
+"use client"
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from "@tanstack/react-table"
 
-import { Advocate } from "./api/advocates/route";
-import { formatPhoneNumber } from "@/lib/utils";
+import { Advocate } from "./api/advocates/route"
+import { formatPhoneNumber } from "@/lib/utils"
+import { DataTableColumnHeader } from "./data-table-column-header"
 
 export const columns: ColumnDef<Advocate>[] = [
   {
     accessorKey: "firstName",
-    header: "First Name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="First Name" />
+    ),
   },
   {
     accessorKey: "lastName",
-    header: "Last Name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last Name" />
+    ),
   },
   {
     accessorKey: "city",
-    header: "City",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="City" />
+    ),
   },
   {
     accessorKey: "degree",
-    header: "Degree",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Degree" />
+    ),
   },
   {
     accessorKey: "specialties",
-    header: "Specialties",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Specialties" />
+    ),
     filterFn: "arrIncludes",
     size: 330,
   },
   {
     accessorKey: "yearsOfExperience",
-    header: () => <div className="text-right">Years of Experience</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Years of Experience" />
+    ),
     cell: ({ row }) => (
       <div className="text-right">{row.getValue("yearsOfExperience")}</div>
     ),
@@ -40,10 +53,10 @@ export const columns: ColumnDef<Advocate>[] = [
     accessorKey: "phoneNumber",
     header: "Phone Number",
     cell: ({ row }) => {
-      const phoneNumber: string = row.getValue("phoneNumber");
-      const formatted = formatPhoneNumber(phoneNumber);
+      const phoneNumber: string = row.getValue("phoneNumber")
+      const formatted = formatPhoneNumber(phoneNumber)
 
-      return <div>{formatted}</div>;
+      return <div>{formatted}</div>
     },
   },
-];
+]
