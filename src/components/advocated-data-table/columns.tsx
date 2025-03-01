@@ -26,7 +26,7 @@ export const columns: ColumnDef<Advocate>[] = [
     accessorKey: "specialties",
     header: "Specialties",
     filterFn: "arrIncludes",
-    size: 340,
+    size: 330,
   },
   {
     accessorKey: "yearsOfExperience",
