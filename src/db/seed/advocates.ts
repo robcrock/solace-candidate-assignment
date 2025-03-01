@@ -1,5 +1,6 @@
 import db from "..";
 import { advocates } from "../schema";
+import { nanoid } from "nanoid";
 
 const specialties = [
   "Bipolar",
@@ -173,6 +174,6 @@ const advocateData = [
     yearsOfExperience: 3,
     phoneNumber: 5559872345,
   },
-].map((advocate) => ({ id: crypto.randomUUID(), ...advocate }));
+].map((advocate) => ({ id: nanoid(), ...advocate }));
 
 export { advocateData };
