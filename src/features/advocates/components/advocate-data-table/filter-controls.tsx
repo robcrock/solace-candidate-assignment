@@ -1,11 +1,13 @@
-import { Table } from "@tanstack/react-table"
-import { Input } from "./ui/input"
+"use client"
 
-type FiltersProps<TData> = {
+import { Table } from "@tanstack/react-table"
+import { Input } from "@/components/ui/input"
+
+interface FilterControlsProps<TData> {
   table: Table<TData>
 }
 
-const Filters = <TData,>({ table }: FiltersProps<TData>) => {
+const FilterControls = <TData,>({ table }: FilterControlsProps<TData>) => {
   return (
     <div className="flex flex-col my-4">
       <p className="text-muted-foreground mb-1">Filters</p>
@@ -77,4 +79,4 @@ const Filters = <TData,>({ table }: FiltersProps<TData>) => {
   )
 }
 
-export { Filters }
+export { FilterControls }

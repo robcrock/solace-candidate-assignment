@@ -2,39 +2,31 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 
-import { Advocate } from "./api/advocates/route"
 import { formatPhoneNumber } from "@/lib/utils"
-import { DataTableColumnHeader } from "./data-table-column-header"
+import { Advocate } from "@/app/api/advocates/route"
+import { ColumnHeader } from "@/components/ui/data-table/column-header"
 
-export const columns: ColumnDef<Advocate>[] = [
+const advocateColumns: ColumnDef<Advocate>[] = [
   {
     accessorKey: "firstName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="First Name" />
-    ),
+    header: ({ column }) => <ColumnHeader column={column} title="First Name" />,
   },
   {
     accessorKey: "lastName",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Name" />
-    ),
+    header: ({ column }) => <ColumnHeader column={column} title="Last Name" />,
   },
   {
     accessorKey: "city",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="City" />
-    ),
+    header: ({ column }) => <ColumnHeader column={column} title="City" />,
   },
   {
     accessorKey: "degree",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Degree" />
-    ),
+    header: ({ column }) => <ColumnHeader column={column} title="Degree" />,
   },
   {
     accessorKey: "specialties",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Specialties" />
+      <ColumnHeader column={column} title="Specialties" />
     ),
     filterFn: "arrIncludes",
     size: 330,
@@ -42,7 +34,7 @@ export const columns: ColumnDef<Advocate>[] = [
   {
     accessorKey: "yearsOfExperience",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Years of Experience" />
+      <ColumnHeader column={column} title="Years of Experience" />
     ),
     cell: ({ row }) => (
       <div className="text-right">{row.getValue("yearsOfExperience")}</div>
@@ -60,3 +52,5 @@ export const columns: ColumnDef<Advocate>[] = [
     },
   },
 ]
+
+export { advocateColumns }
