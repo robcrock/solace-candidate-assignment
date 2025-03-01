@@ -1,9 +1,9 @@
 "use client";
 
+import { columns } from "@/components/advocated-data-table/columns";
+import { DataTable } from "@/components/advocated-data-table/data-table";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { columns } from "./columns";
-import { DataTable } from "./data-table";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState([]);
@@ -19,48 +19,9 @@ export default function Home() {
     });
   }, []);
 
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
-
-    document.getElementById("search-term").innerHTML = searchTerm;
-
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
-  };
-
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
-  };
-
   return (
     <main style={{ margin: "24px" }}>
       <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <Button variant="ghost" onClick={onClick}>
-          Reset Search
-        </Button>
-      </div>
-      <br />
-      <br />
       <DataTable columns={columns} data={filteredAdvocates} />
     </main>
   );

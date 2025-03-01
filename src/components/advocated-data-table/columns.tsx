@@ -25,6 +25,7 @@ export const columns: ColumnDef<Advocate>[] = [
   {
     accessorKey: "specialties",
     header: "Specialties",
+    filterFn: "arrIncludes",
     size: 340,
   },
   {
@@ -33,6 +34,7 @@ export const columns: ColumnDef<Advocate>[] = [
     cell: ({ row }) => (
       <div className="text-right">{row.getValue("yearsOfExperience")}</div>
     ),
+    filterFn: "includesString",
   },
   {
     accessorKey: "phoneNumber",
