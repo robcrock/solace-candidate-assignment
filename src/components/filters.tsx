@@ -1,14 +1,14 @@
-import { Table } from "@tanstack/react-table";
-import { Input } from "./ui/input";
+import { Table } from "@tanstack/react-table"
+import { Input } from "./ui/input"
 
 type FiltersProps<TData> = {
-  table: Table<TData>;
-};
+  table: Table<TData>
+}
 
 const Filters = <TData,>({ table }: FiltersProps<TData>) => {
   return (
     <div className="flex flex-col my-4">
-      <p>Filters</p>
+      <p className="text-muted-foreground mb-1">Filters</p>
       <div className="flex items-center gap-2">
         <Input
           placeholder="First Name"
@@ -64,17 +64,17 @@ const Filters = <TData,>({ table }: FiltersProps<TData>) => {
               ?.getFilterValue() as number) ?? ""
           }
           onChange={(event) => {
-            console.log("event.target.value", event.target.value);
-            console.log("column", table.getColumn("yearsOfExperience"));
+            console.log("event.target.value", event.target.value)
+            console.log("column", table.getColumn("yearsOfExperience"))
             table
               .getColumn("yearsOfExperience")
-              ?.setFilterValue(event.target.value);
+              ?.setFilterValue(event.target.value)
           }}
           className="max-w-sm"
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export { Filters };
+export { Filters }

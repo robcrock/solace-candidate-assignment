@@ -55,9 +55,9 @@ export const DataTable = <TData, TValue>({
   });
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <Filters table={table} />
-      <div className="rounded-md border">
+      <div className="rounded-md border flex-grow">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
