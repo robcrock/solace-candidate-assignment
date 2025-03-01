@@ -9,7 +9,7 @@ const Filters = <TData,>({ table }: FiltersProps<TData>) => {
   return (
     <div className="flex flex-col my-4">
       <p>Filters</p>
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
         <Input
           placeholder="First Name"
           value={
