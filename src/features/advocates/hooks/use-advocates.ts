@@ -1,11 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
-import { getAdvocates } from "../queries/get-advocates"
+import { getAdvocates, type AdvocateResponse } from "../queries/get-advocates"
 
-const useAdvocates = () => {
-  return useQuery({
-    queryKey: ["advocates"],
-    queryFn: getAdvocates,
+export const useAdvocates = (page = 1, pageSize = 5) => {
+  return useQuery<AdvocateResponse, Error>({
+    queryKey: ["advocates", page, pageSize],
+    queryFn: () => getAdvocates({ page, pageSize }),
   })
 }
-
-export { useAdvocates }
