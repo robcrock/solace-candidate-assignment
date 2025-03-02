@@ -1,9 +1,9 @@
-import { z } from "zod";
-import db from "../../../db";
-import { advocates } from "../../../db/schema";
-import { advocateData } from "../../../db/seed/advocates";
+import { z } from "zod"
+import db from "../../../db"
+import { advocates } from "../../../db/schema"
+import { advocateData } from "../../../db/seed/advocates"
 
-const zSpecialty = z.string();
+const zSpecialty = z.string()
 
 const zAdvodateSchema = z.object({
   id: z.string(),
@@ -14,20 +14,20 @@ const zAdvodateSchema = z.object({
   specialties: z.array(zSpecialty),
   yearsOfExperience: z.number(),
   phoneNumber: z.number(),
-});
+})
 
-export type Advocate = z.infer<typeof zAdvodateSchema>;
+export type Advocate = z.infer<typeof zAdvodateSchema>
 
 export async function GET() {
   // Uncomment this line to use a database
-  // const data = await db.select().from(advocates);
+  const data = await db.select().from(advocates)
 
-  const data = advocateData;
+  // const data = advocateData;
 
-  const result = zAdvodateSchema.safeParse(data);
+  const result = zAdvodateSchema.safeParse(data)
   if (!result.success) {
-    console.error("Validation failed:", result.error);
+    console.error("Validation failed:", result.error)
   }
 
-  return Response.json({ data });
+  return Response.json({ data })
 }
