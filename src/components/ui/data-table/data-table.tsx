@@ -43,7 +43,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className="flex flex-col h-full">
-      {renderFilters && <div className="mt-2">{renderFilters(table)}</div>}
+      {renderFilters && <div className="mt-2 mb-4">{renderFilters(table)}</div>}
       <div className="rounded-md border flex-grow">
         <Table>
           <TableHeader>

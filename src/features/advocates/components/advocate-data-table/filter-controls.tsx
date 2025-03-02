@@ -9,7 +9,7 @@ interface FilterControlsProps<TData> {
 
 const FilterControls = <TData,>({ table }: FilterControlsProps<TData>) => {
   return (
-    <div className="flex flex-col my-4">
+    <div className="flex flex-col">
       <p className="text-muted-foreground mb-1">Filters</p>
       <div className="flex items-center gap-2">
         <Input
