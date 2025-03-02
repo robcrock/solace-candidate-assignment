@@ -12,9 +12,10 @@ import {
 
 import { DataTable } from "@/components/ui/data-table/data-table"
 import { FilterControls } from "./filter-controls"
-import { useAdvocates } from "@/features/advocates/hooks/useAdvocates"
+import { useAdvocates } from "@/features/advocates/hooks/use-advocates"
 import { advocateColumns } from "@/features/advocates/components/advocate-data-table/advocate-columns"
 import { PaginationControls } from "@/features/advocates/components/advocate-data-table/pagintation-controls"
+import { Spinner } from "@/components/spinner"
 
 const AdvocateDataTable = () => {
   const [pagination, setPagination] = useState<PaginationState>({
@@ -24,7 +25,15 @@ const AdvocateDataTable = () => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const advocates = useAdvocates()
+  const { data: advocates = [], isLoading, error } = useAdvocates()
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  if (error) {
+    return <div>Error loading advocates: {error.message}</div>
+  }
 
   return (
     <DataTable
