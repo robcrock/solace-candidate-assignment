@@ -5,8 +5,6 @@ import {
   ColumnFiltersState,
   getSortedRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
-  PaginationState,
   SortingState,
 } from "@tanstack/react-table"
 
@@ -18,14 +16,26 @@ import { PaginationControls } from "@/features/advocates/components/advocate-dat
 import { Spinner } from "@/components/spinner"
 
 const AdvocateDataTable = () => {
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 5,
-  })
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 5
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
-  const { data: advocates = [], isLoading, error } = useAdvocates()
+  const {
+    data: advocateResponse,
+    isLoading,
+    error,
+  } = useAdvocates(currentPage, pageSize)
+
+  const pagination = {
+    pageIndex: currentPage - 1,
+    pageSize: pageSize,
+  }
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage)
+  }
 
   if (isLoading) {
     return <Spinner />
@@ -35,17 +45,20 @@ const AdvocateDataTable = () => {
     return <div>Error loading advocates: {error.message}</div>
   }
 
+  const advocates = advocateResponse?.data || []
+  const serverPagination = advocateResponse?.pagination
+
   return (
     <DataTable
       data={advocates}
       columns={advocateColumns}
       tableOptions={{
-        getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        onPaginationChange: setPagination,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
+        manualPagination: true,
+        pageCount: serverPagination?.totalPages || 1,
         state: {
           pagination,
           sorting,
@@ -53,7 +66,13 @@ const AdvocateDataTable = () => {
         },
       }}
       renderFilters={(table) => <FilterControls table={table} />}
-      renderPagination={(table) => <PaginationControls table={table} />}
+      renderPagination={(table) => (
+        <PaginationControls
+          table={table}
+          serverPagination={serverPagination}
+          onPageChange={handlePageChange}
+        />
+      )}
     />
   )
 }
