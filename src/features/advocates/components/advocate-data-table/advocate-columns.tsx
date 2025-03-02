@@ -10,26 +10,28 @@ const advocateColumns: ColumnDef<Advocate>[] = [
   {
     accessorKey: "firstName",
     header: ({ column }) => <ColumnHeader column={column} title="First Name" />,
+    enableSorting: true,
   },
   {
     accessorKey: "lastName",
     header: ({ column }) => <ColumnHeader column={column} title="Last Name" />,
+    enableSorting: true,
   },
   {
     accessorKey: "city",
     header: ({ column }) => <ColumnHeader column={column} title="City" />,
+    enableSorting: true,
   },
   {
     accessorKey: "degree",
     header: ({ column }) => <ColumnHeader column={column} title="Degree" />,
+    enableSorting: true,
   },
   {
     accessorKey: "specialties",
-    header: ({ column }) => (
-      <ColumnHeader column={column} title="Specialties" />
-    ),
-    filterFn: "arrIncludes",
+    header: "Specialties",
     size: 330,
+    enableSorting: false, // Disable sorting for array column (complex to sort)
   },
   {
     accessorKey: "yearsOfExperience",
@@ -40,6 +42,7 @@ const advocateColumns: ColumnDef<Advocate>[] = [
       <div className="text-right">{row.getValue("yearsOfExperience")}</div>
     ),
     filterFn: "includesString",
+    enableSorting: true,
   },
   {
     accessorKey: "phoneNumber",
@@ -50,6 +53,7 @@ const advocateColumns: ColumnDef<Advocate>[] = [
 
       return <div>{formatted}</div>
     },
+    enableSorting: false, // Typically phone numbers aren't sorted
   },
 ]
 

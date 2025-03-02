@@ -1,10 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   ColumnFiltersState,
   getSortedRowModel,
-  getFilteredRowModel,
   SortingState,
 } from "@tanstack/react-table"
 
@@ -15,18 +14,51 @@ import { advocateColumns } from "@/features/advocates/components/advocate-data-t
 import { PaginationControls } from "@/features/advocates/components/advocate-data-table/pagintation-controls"
 import { Spinner } from "@/components/spinner"
 
+export type AdvocateFilters = {
+  firstName: string
+  lastName: string
+  city: string
+  degree: string
+  yearsOfExperience: string
+}
+
 const AdvocateDataTable = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 5
 
+  const [activeFilters, setActiveFilters] = useState<AdvocateFilters>({
+    firstName: "",
+    lastName: "",
+    city: "",
+    degree: "",
+    yearsOfExperience: "",
+  })
+
+  useEffect(() => {
+    // Convert to columnFilters format
+    const newColumnFilters = Object.entries(activeFilters)
+      .filter(([_, value]) => value)
+      .map(([id, value]) => ({
+        id,
+        value,
+      }))
+
+    setColumnFilters(newColumnFilters)
+  }, [activeFilters])
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+
+  // Reset to page 1 when sorting changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [sorting])
 
   const {
     data: advocateResponse,
     isLoading,
     error,
-  } = useAdvocates(currentPage, pageSize)
+  } = useAdvocates(currentPage, pageSize, activeFilters, sorting)
 
   const pagination = {
     pageIndex: currentPage - 1,
@@ -35,6 +67,11 @@ const AdvocateDataTable = () => {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage)
+  }
+
+  const handleFilterChange = (newFilters: AdvocateFilters) => {
+    setActiveFilters(newFilters)
+    setCurrentPage(1)
   }
 
   if (isLoading) {
@@ -53,11 +90,11 @@ const AdvocateDataTable = () => {
       data={advocates}
       columns={advocateColumns}
       tableOptions={{
-        getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
         onSortingChange: setSorting,
-        onColumnFiltersChange: setColumnFilters,
         manualPagination: true,
+        manualFiltering: true,
+        manualSorting: true,
         pageCount: serverPagination?.totalPages || 1,
         state: {
           pagination,
@@ -65,7 +102,13 @@ const AdvocateDataTable = () => {
           columnFilters,
         },
       }}
-      renderFilters={(table) => <FilterControls table={table} />}
+      renderFilters={(table) => (
+        <FilterControls
+          table={table}
+          onFilterChange={handleFilterChange}
+          activeFilters={activeFilters}
+        />
+      )}
       renderPagination={(table) => (
         <PaginationControls
           table={table}
